@@ -1,6 +1,8 @@
 package ivanovvasil.u5d2w2.services;
 
+import ivanovvasil.u5d2w2.entities.Author;
 import ivanovvasil.u5d2w2.entities.BlogPost;
+import ivanovvasil.u5d2w2.entities.NewPostPayload;
 import ivanovvasil.u5d2w2.exceptions.NotFoundException;
 import ivanovvasil.u5d2w2.repositories.BlogPostsRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,9 +18,23 @@ import java.util.List;
 public class BlogPostsSevices {
   @Autowired
   private BlogPostsRepository blogPostsRepository;
+  @Autowired
+  private AuthorsSevices authorsSevices;
 
   public BlogPost save(BlogPost body) {
     return blogPostsRepository.save(body);
+  }
+
+  public BlogPost saveNewPost(NewPostPayload body) throws NotFoundException {
+    Author authorFound = authorsSevices.findById(body.getAuthorId());
+    BlogPost newBlogPost = BlogPost.builder()
+            .categoria(body.getCategoria())
+            .titolo(body.getTitolo())
+            .postContent(body.getPostContent())
+            .author(authorFound)
+            .cover("https://picsum.photos/200/300")
+            .build();
+    return blogPostsRepository.save(newBlogPost);
   }
 
   public List<BlogPost> findAll() {

@@ -1,6 +1,7 @@
 package ivanovvasil.u5d2w2.controllers;
 
 import ivanovvasil.u5d2w2.entities.BlogPost;
+import ivanovvasil.u5d2w2.entities.NewPostPayload;
 import ivanovvasil.u5d2w2.services.BlogPostsSevices;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -21,10 +22,10 @@ public class BlogPostsController {
   }
 
   @PostMapping("")
-  @ResponseStatus(HttpStatus.CREATED) // <-- 201
-  public BlogPost saveBlogPost(@RequestBody BlogPost body) {
-    body.setCover("https://picsum.photos/200/300");
-    return blogPostsSevices.save(body);
+  @ResponseStatus(HttpStatus.CREATED)
+  public BlogPost saveBlogPost(@RequestBody NewPostPayload body) {
+
+    return blogPostsSevices.saveNewPost(body);
   }
 
   @GetMapping("/{id}")
