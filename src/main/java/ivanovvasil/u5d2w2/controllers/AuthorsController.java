@@ -22,7 +22,6 @@ public class AuthorsController {
   @PostMapping("")
   @ResponseStatus(HttpStatus.CREATED)
   public Author saveAuthor(@RequestBody Author body) {
-    body.setAvatar("https://ui-avatars.com/api/?name=" + body.getName() + "+" + body.getSurname());
     return authorSevice.save(body);
   }
 
