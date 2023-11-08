@@ -3,10 +3,9 @@ package ivanovvasil.u5d2w2.controllers;
 import ivanovvasil.u5d2w2.entities.Author;
 import ivanovvasil.u5d2w2.services.AuthorsSevices;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
 
 @RestController
 @RequestMapping("/authors")
@@ -15,8 +14,10 @@ public class AuthorsController {
   private AuthorsSevices authorSevice;
 
   @GetMapping("")
-  public List<Author> getAll() {
-    return authorSevice.findAll();
+  public Page<Author> getAll(@RequestParam(defaultValue = "0") int page,
+                             @RequestParam(defaultValue = "15") int size,
+                             @RequestParam(defaultValue = "name") String orderBy) {
+    return authorSevice.findAll(page, size, orderBy);
   }
 
   @PostMapping("")

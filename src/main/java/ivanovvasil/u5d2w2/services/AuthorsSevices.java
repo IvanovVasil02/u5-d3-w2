@@ -5,6 +5,10 @@ import ivanovvasil.u5d2w2.exceptions.BadRequestException;
 import ivanovvasil.u5d2w2.exceptions.NotFoundException;
 import ivanovvasil.u5d2w2.repositories.AuthorsRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -20,6 +24,11 @@ public class AuthorsSevices {
     });
     body.setAvatar("http://ui-avatars.com/api/?name=" + body.getName() + "+" + body.getSurname());
     return authorsRepository.save(body);
+  }
+
+  public Page<Author> findAll(int page, int size, String orderBy) {
+    Pageable pageable = PageRequest.of(page, size, Sort.by(orderBy));
+    return authorsRepository.findAll(pageable);
   }
 
   public List<Author> findAll() {

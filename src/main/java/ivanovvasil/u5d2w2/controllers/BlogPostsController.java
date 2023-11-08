@@ -3,10 +3,9 @@ package ivanovvasil.u5d2w2.controllers;
 import ivanovvasil.u5d2w2.entities.BlogPost;
 import ivanovvasil.u5d2w2.services.BlogPostsSevices;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
 
 @RestController
 @RequestMapping("/blogPosts")
@@ -15,8 +14,10 @@ public class BlogPostsController {
   private BlogPostsSevices blogPostsSevices;
 
   @GetMapping("")
-  public List<BlogPost> getAll() {
-    return blogPostsSevices.findAll();
+  public Page<BlogPost> getAll(@RequestParam(defaultValue = "0") int page,
+                               @RequestParam(defaultValue = "15") int size,
+                               @RequestParam(defaultValue = "readingTime") String orderBy) {
+    return blogPostsSevices.findAll(page, size, orderBy);
   }
 
   @PostMapping("")
